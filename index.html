@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>  Convert Microsoft Word to plain text - Jonathan Hedley - Live from Sydney</title>
+</head>
+<body>
+
+<div style="text-align:center;">
+    <h1>MS Word Cleaner</h1>
+
+<!-- BEGIN SNIPPET -->
+
+<script language="JavaScript">
+var swapCodes   = new Array(8211, 8212, 8216, 8217, 8220, 8221, 8226, 8230);
+var swapStrings = new Array("--", "--", "'",  "'",  "\"",  "\"",  "*",  "...");  
+
+function cleanWordClipboard(input) 
+{
+    // debug for new codes
+    // for (i = 0; i < input.length; i++)  alert("'" + input.charAt(i) + "': " + input.charCodeAt(i));    
+   
+    var output = input;
+    
+    for (i = 0; i < swapCodes.length; i++) 
+    {
+        var swapper = new RegExp("\\u" + swapCodes[i].toString(16), "g");
+        output = output.replace(swapper, swapStrings[i]);
+    }
+    
+    output = removeAccents(output);
+
+    return output;
+}
+
+function removeAccents(input)
+{
+    
+    var output = remacc(input);
+
+    output = removeAccents(output);
+    return output;   
+}
+
+
+function removeAccents(strAccents){
+    strAccents = strAccents.split('');
+    strAccentsOut = new Array();
+    strAccentsLen = strAccents.length;
+    var accents = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
+    var accentsOut = ['A','A','A','A','A','A','a','a','a','a','a','a','O','O','O','O','O','O','O','o','o','o','o','o','o','E','E','E','E','e','e','e','e','e','C','c','D','I','I','I','I','i','i','i','i','U','U','U','U','u','u','u','u','N','n','S','s','Y','y','y','Z','z'];
+    for (var y = 0; y < strAccentsLen; y++) {
+        if (accents.indexOf(strAccents[y]) != -1) {
+            strAccentsOut[y] = accentsOut[accents.indexOf(strAccents[y])];
+        }
+        else
+            strAccentsOut[y] = strAccents[y];
+    }
+    strAccentsOut = strAccentsOut.join('');
+    return strAccentsOut;
+}
+
+
+String.prototype.accnt = function(){
+var cnt = 0;
+var acnt = this;
+acnt = acnt.split('');
+acntlen = acnt.length;
+var sec = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
+var rep = ['A','A','A','A','A','A','a','a','a','a','a','a','O','O','O','O','O','O','O','o','o','o','o','o','o','E','E','E','E','e','e','e','e','e','C','c','D','I','I','I','I','i','i','i','i','U','U','U','U','u','u','u','u','N','n','S','s','Y','y','y','Z','z'];
+for (var y = 0; y < acntlen; y++){
+if (sec.indexOf(acnt[y]) != -1)  cnt++;}
+return cnt;}
+
+String.prototype.renlacc = function()
+{
+    var torem = this;
+    torem = torem.split('');
+    
+    toremout = new Array();
+    toremlen = torem.length;
+    
+    var sec = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
+    var rep = ['A','A','A','A','A','A','a','a','a','a','a','a','O','O','O','O','O','O','O','o','o','o','o','o','o','E','E','E','E','e','e','e','e','e','C','c','D','I','I','I','I','i','i','i','i','U','U','U','U','u','u','u','u','N','n','S','s','Y','y','y','Z','z'];
+    
+    for (var y = 0; y < toremlen; y++)
+    {
+        var letter_to_remove = torem[y];
+        var index_of_remove = sec.indexOf(letter_to_remove);
+    
+        if (index_of_remove != -1) 
+        {
+            replace_letter = rep[index_of_remove];
+
+            toremout[y] = replace_letter;
+        } 
+        else 
+        {
+            toremout[y] = torem[y];
+        }
+    
+    }
+
+    toascout = toremout.join('');
+    return toascout;
+}
+
+
+
+function remacc(input)
+{
+    var output = input;
+
+    var countarr = new Array();
+    var c = '';
+    //var text=document.racc.input_output.value;
+
+
+    var textout = new Array();
+    
+    output = output.replace(/\r/g,'');
+    output = output.split('\n');
+    
+    var linecount = output.length;
+    
+    
+    for(var x = 0; x < linecount; x++)
+    {
+        countarr[x] = Math.abs(output[x].accnt());
+        textout[x] = output[x].renlacc();
+    }
+    textout = textout.join('\n');
+    output=textout;
+    
+    return output;
+}
+
+
+
+
+</script>
+<pre>
+<form name="wordCleaner" onsubmit="return false;">
+<textarea style="width: 720px; height: 300px" id="wordInput">
+&bull; &ldquo;Double Quotes&rdquo;,
+&bull; &lsquo;Single quotes&rsquo;,
+&bull; Ellipsis &hellip;,
+&bull; em-dash &mdash;
+</textarea>
+
+<textarea style="width: 720px; height: 300px" id="wordOutput"></textarea>
+
+<button onClick='document.getElementById("wordOutput").value = cleanWordClipboard(document.getElementById("wordInput").value)'>Clean</button>
+</form>
+</pre>
+</div>
+<!-- END SNIPPET  -->
+</body>
+</html>
